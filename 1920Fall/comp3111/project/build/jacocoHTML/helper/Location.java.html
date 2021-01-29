@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Location.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">helper</a> &gt; <span class="el_source">Location.java</span></div><h1>Location.java</h1><pre class="source lang-java linenums">package helper;
+
+import java.awt.Point;
+import javafx.scene.control.Label;
+import helper.GameConfig;
+
+/**
+ * Save the x, y coordinate in px form
+ */
+public class Location extends Point {
+
+    public Location(int x, int y) {
+<span class="fc" id="L13">        super(x, y);</span>
+<span class="fc" id="L14">    }</span>
+
+    public double distance(Location l) {
+<span class="nc" id="L17">        return this.distance(l);</span>
+    }
+
+    /**
+     * determine if this point is covered by the laser
+     * @param tower location of tower
+     * @param monster location of monster
+     * @return true - in range, false - out of range
+     */
+    public boolean isInRange(Location tower, Location monster) {
+        boolean inRange, inSameDirection;
+        double A, B, C;
+
+        // horizontal line, slope = 0
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (tower.x == monster.x) {</span>
+<span class="pc bpc" id="L32" title="6 of 8 branches missed.">            inSameDirection = (tower.x &gt; monster.x &amp;&amp; tower.x &gt; x)</span>
+                            || (tower.x &lt; monster.x &amp;&amp; tower.x &lt; x);
+<span class="fc" id="L34">            A = 1;</span>
+<span class="fc" id="L35">            B = 0;</span>
+<span class="fc" id="L36">            C = tower.y;</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        } else if (tower.y == monster.y) {</span>
+<span class="nc bnc" id="L39" title="All 8 branches missed.">            inSameDirection = (tower.y &gt; monster.y &amp;&amp; tower.y &gt; y)</span>
+                            || (tower.y &lt; monster.y &amp;&amp; tower.y &lt; y);
+<span class="nc" id="L41">            A = 0;</span>
+<span class="nc" id="L42">            B = 1;</span>
+<span class="nc" id="L43">            C = tower.x;</span>
+        } else {
+            // General form
+<span class="nc" id="L46">            A = (tower.y - monster.y) / (tower.x - monster.x);</span>
+<span class="nc" id="L47">            B = -1;</span>
+<span class="nc" id="L48">            C = monster.y - A * monster.x;</span>
+            // Slope-intercept form for perpendicular equation
+            double m, c;
+<span class="nc" id="L51">            m = -1 / A;</span>
+<span class="nc" id="L52">            c = tower.y - tower.x * m;</span>
+            
+<span class="nc" id="L54">            double degree = tower.getAngle(monster);</span>
+            
+<span class="nc bnc" id="L56" title="All 12 branches missed.">            inSameDirection = (degree &gt;= 0 &amp;&amp; degree &lt; 180 &amp;&amp; (m * x - y + c) &gt; 0) </span>
+                        || (degree &gt;= 180 &amp;&amp; degree &lt; 360 &amp;&amp; (m * x - y + c) &lt; 0);
+        }
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        inRange = Math.abs(A * x + B * y + C) / Math.sqrt(A * A + 1) &lt;= 3;</span>
+<span class="pc bpc" id="L61" title="2 of 4 branches missed.">        return inRange &amp;&amp; inSameDirection;</span>
+    }
+
+    /**
+     * Convert pixel coordinate to grid label
+     * @param grids the Label grids[][]
+     * @return the Label in relative pixel coordinate
+     */
+    public Label getGridLabel(Label grids[][]) {
+<span class="nc" id="L70">        return grids[y / GameConfig.GRID_HEIGHT][x / GameConfig.GRID_WIDTH];</span>
+    }
+
+    public double getAngle(Point target) {
+<span class="nc" id="L74">        double angle = Math.toDegrees(Math.atan2(target.y - y, target.x - x));</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (angle &lt; 0)</span>
+<span class="nc" id="L76">            angle += 360;</span>
+<span class="nc" id="L77">        return angle;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

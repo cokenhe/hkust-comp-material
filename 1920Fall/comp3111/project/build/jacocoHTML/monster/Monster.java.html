@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Monster.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">monster</a> &gt; <span class="el_source">Monster.java</span></div><h1>Monster.java</h1><pre class="source lang-java linenums">package monster;
+
+import helper.Location;;
+
+public class Monster {
+        
+        protected int hp;
+        protected int x;
+        protected int y;
+        protected int speed;   //how many times need to call move() per 1 frames
+        protected String icon; //the name of the image 
+        protected boolean alive;
+<span class="nc" id="L13">        protected enum Direction {</span>
+<span class="nc" id="L14">            DOWNWARD(1), UPWARD(-1);</span>
+            private int value;
+<span class="nc" id="L16">            Direction(int i) {this.value = i; }</span>
+<span class="nc" id="L17">            public int getValue() { return this.value; }</span>
+        }
+<span class="nc" id="L19">        protected Direction dir = Direction.DOWNWARD;</span>
+<span class="nc" id="L20">        Monster(){</span>
+<span class="nc" id="L21">            x=0;</span>
+<span class="nc" id="L22">            y=0;</span>
+<span class="nc" id="L23">            dir=Direction.DOWNWARD;</span>
+<span class="nc" id="L24">            hp=5;   </span>
+<span class="nc" id="L25">            speed =1; </span>
+<span class="nc" id="L26">            alive = true;</span>
+<span class="nc" id="L27">            icon=&quot;&quot;;</span>
+<span class="nc" id="L28">        }</span>
+        public void move(int MAX_V_NUM_GRID){ //need pass the MAX_V_NUM_GRID into this function
+            
+        // Initial position
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (x == -1) {</span>
+<span class="nc" id="L33">            return; </span>
+        }
+        // When col is odd, move to right
+<span class="nc bnc" id="L36" title="All 10 branches missed.">        if (x % 2 == 1 || (dir == Direction.DOWNWARD &amp;&amp; y == MAX_V_NUM_GRID - 1) || (dir == Direction.UPWARD &amp;&amp; y == 0)){</span>
+<span class="nc" id="L37">            ++x;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            dir = (y == 0)                  ? Direction.DOWNWARD : </span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">                  (y == MAX_V_NUM_GRID - 1) ? Direction.UPWARD   : dir;</span>
+<span class="nc" id="L40">            return;</span>
+        }
+        // Moving up / down
+<span class="nc" id="L43">        y += dir.getValue();</span>
+<span class="nc" id="L44">        }</span>
+        public int getHP(){
+<span class="nc" id="L46">            return this.hp;</span>
+        }
+        public void reduceHP(int dam){
+<span class="nc" id="L49">            this.hp = this.hp-dam;</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if(this.hp&lt;1)</span>
+<span class="nc" id="L51">                this.alive = false;         </span>
+<span class="nc" id="L52">        }</span>
+        public int getSpeed(){
+<span class="nc" id="L54">            return this.speed;</span>
+        }
+        public boolean isAlive(){
+<span class="nc" id="L57">            return this.alive;</span>
+        }
+        public int getX(){
+<span class="nc" id="L60">            return this.x;</span>
+        }
+        public int getY(){
+<span class="nc" id="L63">            return this.y;</span>
+        }
+        public Location getLocation() {
+<span class="nc" id="L66">            return new Location(0,0);</span>
+        }
+    }
+
+  
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

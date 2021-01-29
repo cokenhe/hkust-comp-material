@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MyController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">MyController.java</span></div><h1>MyController.java</h1><pre class="source lang-java linenums">package controller;
+
+// MARK: javafx
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.*;
+import javafx.event.*;
+import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.geometry.Insets;
+import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+// MARK: java 
+import java.util.Random;
+
+// MARK: custom classes
+import monster.*;
+import helper.Location;
+import helper.GameConfig;
+
+<span class="nc" id="L26">public class MyController {</span>
+    @FXML
+    private Button buttonNextFrame;
+
+    @FXML
+    private Button buttonSimulate;
+
+    @FXML
+    private Button buttonPlay;
+
+    @FXML
+    private AnchorPane paneArena;
+
+    @FXML
+    private Label labelBasicTower;
+
+    @FXML
+    private Label labelIceTower;
+
+    @FXML
+    private Label labelCatapult;
+
+    @FXML
+    private Label labelLaserTower;
+
+    @FXML
+    private Label labelMoneyAmount;
+
+<span class="nc" id="L54">    private static int number_of_frame = 0;</span>
+<span class="nc" id="L55">    private static int number_of_monster = 0;</span>
+<span class="nc" id="L56">    private static Random rand = new Random(System.currentTimeMillis());</span>
+    
+<span class="nc" id="L58">    private static Monster monsters[] = new Monster[GameConfig.MAX_MONSTER_NUMBER];</span>
+
+<span class="nc" id="L60">    private Label grids[][] = new Label[GameConfig.MAX_V_NUM_GRID][GameConfig.MAX_H_NUM_GRID]; //the grids on arena</span>
+<span class="nc" id="L61">    private int x = -1, y = 0;</span>
+    
+<span class="nc" id="L63">    protected enum Direction { //copied to monster</span>
+<span class="nc" id="L64">        DOWNWARD(1), UPWARD(-1);</span>
+        private int value;
+<span class="nc" id="L66">        Direction(int i) {this.value = i; }</span>
+<span class="nc" id="L67">        public int getValue() { return this.value; }</span>
+    }
+
+<span class="nc" id="L70">    private Direction monsterDirection = Direction.DOWNWARD;</span>
+
+    /**
+     * A dummy function to show how button click works
+     */
+    
+    @FXML
+    private void play() {
+<span class="nc" id="L78">        System.out.println(&quot;Play button clicked&quot;);</span>
+
+<span class="nc" id="L80">        Location a = new Location(0, 0);</span>
+<span class="nc" id="L81">        Location b = new Location(0, 1);</span>
+<span class="nc" id="L82">        Location c = new Location(1, 1);</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        for (int i = -5; i &lt; 6; i++) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for (int j = -5; j &lt; 6; j++) {</span>
+<span class="nc" id="L86">                Location l = new Location(i,j);</span>
+<span class="nc" id="L87">                System.out.println(String.format(&quot;(%d, %d): &quot; + l.isInRange(a, b), i, j));</span>
+            }
+        }
+
+        // Label newLabel = new Label();
+        // newLabel.setLayoutX(GRID_WIDTH / 4);
+        // newLabel.setLayoutY(GRID_WIDTH / 4);
+        // newLabel.setMinWidth(GRID_WIDTH / 2);
+        // newLabel.setMaxWidth(GRID_WIDTH / 2);
+        // newLabel.setMinHeight(GRID_WIDTH / 2);
+        // newLabel.setMaxHeight(GRID_WIDTH / 2);
+        // newLabel.setStyle(&quot;-fx-border-color: black;&quot;);
+        // newLabel.setText(&quot;*&quot;);
+        // newLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW,
+        // CornerRadii.EMPTY, Insets.EMPTY)));
+        // paneArena.getChildren().addAll(newLabel);
+<span class="nc" id="L103">    }</span>
+
+    /**
+     * A function that create the Arena
+     */
+    @FXML
+    public void createArena() {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (grids[0][0] != null)</span>
+<span class="nc" id="L111">            return; //created already</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        for (int i = 0; i &lt; GameConfig.MAX_V_NUM_GRID; i++)</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            for (int j = 0; j &lt; GameConfig.MAX_H_NUM_GRID; j++) {</span>
+<span class="nc" id="L114">                Label newLabel = new Label();</span>
+<span class="nc bnc" id="L115" title="All 4 branches missed.">                if (j % 2 == 0 || i == ((j + 1) / 2 % 2) * (GameConfig.MAX_V_NUM_GRID - 1))</span>
+<span class="nc" id="L116">                    newLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));</span>
+                else
+<span class="nc" id="L118">                    newLabel.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));</span>
+<span class="nc" id="L119">                newLabel.setLayoutX(j * GameConfig.GRID_WIDTH);</span>
+<span class="nc" id="L120">                newLabel.setLayoutY(i * GameConfig.GRID_HEIGHT);</span>
+<span class="nc" id="L121">                newLabel.setMinWidth(GameConfig.GRID_WIDTH);</span>
+<span class="nc" id="L122">                newLabel.setMaxWidth(GameConfig.GRID_WIDTH);</span>
+<span class="nc" id="L123">                newLabel.setMinHeight(GameConfig.GRID_HEIGHT);</span>
+<span class="nc" id="L124">                newLabel.setMaxHeight(GameConfig.GRID_HEIGHT);</span>
+<span class="nc" id="L125">                newLabel.setStyle(&quot;-fx-border-color: black;&quot;);</span>
+<span class="nc" id="L126">                grids[i][j] = newLabel;</span>
+<span class="nc" id="L127">                paneArena.getChildren().addAll(newLabel);</span>
+            }
+
+<span class="nc" id="L130">        setStyle();</span>
+<span class="nc" id="L131">        setDragAndDrop();</span>
+<span class="nc" id="L132">    }</span>
+
+    @FXML
+    private void nextFrame() {
+<span class="nc" id="L136">        offerResources();</span>
+
+        //gernerate monster every 3 frames
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if(number_of_frame++ % 3 == 0){ </span>
+<span class="nc" id="L140">            generateMonster();</span>
+        }
+
+        // Initial position
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (x == -1) {</span>
+<span class="nc" id="L145">            grids[0][0].setStyle(&quot;-fx-background-image: url(\&quot;fox.png\&quot;); -fx-background-size:40px 40px;&quot;);</span>
+<span class="nc" id="L146">            x = 0;</span>
+<span class="nc" id="L147">            return; </span>
+        }
+
+<span class="nc" id="L150">        grids[y][x].setStyle(&quot;-fx-background-image:none; -fx-border-color: black;&quot;);</span>
+
+        // When col is odd || moved to top / bottom, then move to right
+<span class="nc bnc" id="L153" title="All 10 branches missed.">        if (x % 2 == 1 || (monsterDirection == Direction.DOWNWARD &amp;&amp; y == GameConfig.MAX_V_NUM_GRID - 1) || (monsterDirection == Direction.UPWARD &amp;&amp; y == 0)){</span>
+<span class="nc" id="L154">            x += 1;</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            if (y == 0)                  monsterDirection = Direction.DOWNWARD;</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">            if (y == GameConfig.MAX_V_NUM_GRID - 1) monsterDirection = Direction.UPWARD;</span>
+        } else // Moving up / down
+<span class="nc" id="L158">            y += monsterDirection.getValue();</span>
+
+<span class="nc" id="L160">        grids[y][x].setStyle(&quot;-fx-background-image: url(\&quot;fox.png\&quot;); -fx-background-size:40px 40px;&quot;);</span>
+<span class="nc" id="L161">    }</span>
+
+    @FXML
+    private void generateMonster(){
+<span class="nc bnc" id="L165" title="All 4 branches missed.">        switch(rand.nextInt(GameConfig.NO_OF_MONSTER_TYPE)){</span>
+            case 1:
+<span class="nc" id="L167">                monsters[number_of_monster++] = new Fox(number_of_frame);</span>
+<span class="nc" id="L168">                break;</span>
+            case 2:
+<span class="nc" id="L170">                monsters[number_of_monster++] = new Unicorn(number_of_frame);</span>
+<span class="nc" id="L171">                break;</span>
+            case 3:
+<span class="nc" id="L173">                monsters[number_of_monster++] = new Penguim(number_of_frame);</span>
+                break;
+        }
+<span class="nc" id="L176">    }</span>
+
+    private void offerResources() {
+
+<span class="nc" id="L180">    }</span>
+
+    /**
+     * Setup the styles of UI elements
+     */
+    private void setStyle() {
+<span class="nc" id="L186">        labelMoneyAmount.setTextFill(Color.YELLOW);</span>
+<span class="nc" id="L187">    }</span>
+
+    /**
+     * A function that demo how drag and drop works
+     */
+    private void setDragAndDrop() {
+<span class="nc" id="L193">        labelBasicTower.setOnDragDetected(new DragEventHandler(labelBasicTower));</span>
+<span class="nc" id="L194">        labelIceTower.setOnDragDetected(new DragEventHandler(labelIceTower));</span>
+<span class="nc" id="L195">        labelCatapult.setOnDragDetected(new DragEventHandler(labelCatapult));</span>
+<span class="nc" id="L196">        labelLaserTower.setOnDragDetected(new DragEventHandler(labelLaserTower));</span>
+
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        for (int i = 0; i &lt; GameConfig.MAX_V_NUM_GRID; i++)</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">            for (int j = 0; j &lt; GameConfig.MAX_H_NUM_GRID; j++) {</span>
+<span class="nc" id="L200">                Label target = grids[i][j];</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">                if (target.getBackground().getFills().get(0).getFill() == Color.WHITE) continue;</span>
+
+<span class="nc" id="L203">                target.setOnDragEntered((event) -&gt; {</span>
+<span class="nc bnc" id="L204" title="All 4 branches missed.">                    if (event.getGestureSource() != target &amp;&amp; event.getDragboard().hasString()) </span>
+<span class="nc" id="L205">                        target.setStyle(&quot;-fx-border-color: red;&quot;);</span>
+<span class="nc" id="L206">                    event.consume();</span>
+<span class="nc" id="L207">                });</span>
+
+<span class="nc" id="L209">                target.setOnDragOver((event) -&gt; {</span>
+<span class="nc bnc" id="L210" title="All 4 branches missed.">                    if (event.getGestureSource() != target &amp;&amp; event.getDragboard().hasString()) </span>
+<span class="nc" id="L211">                        event.acceptTransferModes(TransferMode.COPY_OR_MOVE);</span>
+<span class="nc" id="L212">                    event.consume();</span>
+<span class="nc" id="L213">                });</span>
+
+<span class="nc" id="L215">                target.setOnDragDropped(new DragDroppedEventHandler());</span>
+
+<span class="nc" id="L217">                target.setOnDragExited((event) -&gt; {</span>
+<span class="nc" id="L218">                    target.setStyle(&quot;-fx-border-color: black;&quot;);</span>
+<span class="nc" id="L219">                    event.consume();</span>
+<span class="nc" id="L220">                });</span>
+            }
+<span class="nc" id="L222">    }</span>
+}
+
+class DragEventHandler implements EventHandler&lt;MouseEvent&gt; {
+    private Label source;
+<span class="nc" id="L227">    public DragEventHandler(Label e) {</span>
+<span class="nc" id="L228">        source = e;</span>
+<span class="nc" id="L229">    }</span>
+    @Override
+    public void handle (MouseEvent event) {
+<span class="nc" id="L232">        Dragboard db = source.startDragAndDrop(TransferMode.ANY);</span>
+<span class="nc" id="L233">        ClipboardContent content = new ClipboardContent();</span>
+<span class="nc" id="L234">        Image image = new Image(source.getId() + &quot;.png&quot;);</span>
+<span class="nc" id="L235">        content.putImage(image);</span>
+<span class="nc" id="L236">        content.putString(source.getId());</span>
+<span class="nc" id="L237">        db.setContent(content);</span>
+
+<span class="nc" id="L239">        event.consume();</span>
+<span class="nc" id="L240">    }</span>
+}
+
+<span class="nc" id="L243">class DragDroppedEventHandler implements EventHandler&lt;DragEvent&gt; {</span>
+    @Override
+    public void handle(DragEvent event) {
+<span class="nc" id="L246">        Dragboard db = event.getDragboard();</span>
+<span class="nc" id="L247">        boolean success = false;</span>
+<span class="nc bnc" id="L248" title="All 4 branches missed.">        if (db.hasString() &amp;&amp; ((Label)event.getGestureTarget()).getGraphic() == null) {</span>
+<span class="nc" id="L249">            Label target = (Label) event.getGestureTarget();</span>
+            // String style = String.format(&quot;-fx-background-image: url(\&quot;%s\&quot;); -fx-background-size:40px 40px;&quot;, db.getString() + &quot;.png&quot;);
+<span class="nc" id="L251">            target.setText(&quot;&quot;);</span>
+            // target.setStyle(style);
+            
+<span class="nc" id="L254">            Image image = new Image(db.getString() + &quot;.png&quot;, 40, 40, true, true);</span>
+<span class="nc" id="L255">            target.setGraphic(new ImageView(image));</span>
+<span class="nc" id="L256">            target.setMaxSize(40.0, 40.0);</span>
+
+<span class="nc" id="L258">            target.setStyle(&quot;-fx-border-color: black;&quot;);</span>
+
+            // REMARK: should change to click event, for upgrade tower / destroy
+<span class="nc" id="L261">            target.setOnDragDropped(null);</span>
+<span class="nc" id="L262">            target.setOnDragEntered(null);</span>
+<span class="nc" id="L263">            target.setOnDragOver(null);</span>
+<span class="nc" id="L264">            target.setOnDragExited(null);</span>
+
+<span class="nc" id="L266">            success = true;</span>
+        }
+<span class="nc" id="L268">        event.setDropCompleted(success);</span>
+<span class="nc" id="L269">        event.consume();</span>
+
+<span class="nc" id="L271">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MathHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">project</a> &gt; <a href="index.source.html" class="el_package">helper</a> &gt; <span class="el_source">MathHelper.java</span></div><h1>MathHelper.java</h1><pre class="source lang-java linenums">package helper;
+
+// Java Program to Determine Direction of Point 
+// from line segment 
+<span class="nc" id="L5">class GFG {</span>
+
+    // structure for point in cartesian plane.
+<span class="nc" id="L8">    static class point {</span>
+        int x, y;
+    };
+
+    // constant integers for directions
+<span class="nc" id="L13">    static int RIGHT = 1, LEFT = -1, ZERO = 0;</span>
+
+    static int directionOfPoint(point A, point B, point P) {
+        // subtracting co-ordinates of point A
+        // from B and P, to make A as origin
+<span class="nc" id="L18">        B.x -= A.x;</span>
+<span class="nc" id="L19">        B.y -= A.y;</span>
+<span class="nc" id="L20">        P.x -= A.x;</span>
+<span class="nc" id="L21">        P.y -= A.y;</span>
+
+        // Determining cross Product
+<span class="nc" id="L24">        int cross_product = B.x * P.y - B.y * P.x;</span>
+
+        // return RIGHT if cross product is positive
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (cross_product &gt; 0)</span>
+<span class="nc" id="L28">            return RIGHT;</span>
+
+        // return LEFT if cross product is negative
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (cross_product &lt; 0)</span>
+<span class="nc" id="L32">            return LEFT;</span>
+
+        // return ZERO if cross product is zero.
+<span class="nc" id="L35">        return ZERO;</span>
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+<span class="nc" id="L40">        point A = new point(), B = new point(), P = new point();</span>
+<span class="nc" id="L41">        A.x = -30;</span>
+<span class="nc" id="L42">        A.y = 10; // A(-30, 10)</span>
+<span class="nc" id="L43">        B.x = 29;</span>
+<span class="nc" id="L44">        B.y = -15; // B(29, -15)</span>
+<span class="nc" id="L45">        P.x = 15;</span>
+<span class="nc" id="L46">        P.y = 28; // P(15, 28)</span>
+
+<span class="nc" id="L48">        int direction = directionOfPoint(A, B, P);</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (direction == 1)</span>
+<span class="nc" id="L50">            System.out.println(&quot;Right Direction&quot;);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        else if (direction == -1)</span>
+<span class="nc" id="L52">            System.out.println(&quot;Left Direction&quot;);</span>
+        else
+<span class="nc" id="L54">            System.out.println(&quot;Point is on the Line&quot;);</span>
+<span class="nc" id="L55">    }</span>
+}
+
+// This code is contributed
+// by Princi Singh
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>
