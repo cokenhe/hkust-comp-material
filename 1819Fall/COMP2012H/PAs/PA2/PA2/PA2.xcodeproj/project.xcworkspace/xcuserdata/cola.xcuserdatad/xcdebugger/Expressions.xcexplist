@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "task2():test.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "database">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "deleteSnapshotNode(SnapshotNode*):SnapshotNode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "getTopNext(StockNode const*):StockNode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "getValueAt(Snapshot const&amp;, int, int):Snapshot.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "deleteDatabase(Database&amp;):Database.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "deleteSnapshot(Snapshot&amp;):Snapshot.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "undo(Snapshot&amp;):Snapshot.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "stamp(Database&amp;):Database.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "getTopValue(StockNode const*):StockNode.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "stampSnapshot(Snapshot&amp;):Snapshot.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "add(Database&amp;, int, double):Database.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "needToStamp(database)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "task4():test.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "reconstruct(Database&amp;, int):Database.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "set(Snapshot&amp;, int, double):Snapshot.cpp">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

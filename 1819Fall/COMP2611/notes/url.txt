@@ -1,0 +1,10 @@
+https://course.cse.ust.hk/comp2611/note/COMP2611_Introduction_Fall18.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_DigitalLogic_Fall18.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_Data_Representation_Fall18.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_ISA_Fall18.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_Arithmetic.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_Processor_part1.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_Processor_part1.ppsx
+https://course.cse.ust.hk/comp2611/note/COMP2611_Processor_part2.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_Memory_part1.pdf
+https://course.cse.ust.hk/comp2611/note/COMP2611_Memory_part2.pdf

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/usual.ttf</file>
+        <file>images/logo.jpg</file>
+    </qresource>
+</RCC>
