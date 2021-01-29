@@ -1,0 +1,65 @@
+.ic-Login__body{ /*UB-1*/
+    padding-bottom:0px;
+}
+
+a#login_forgot_password { /*UB-2*/
+  color: #fff !important;
+}
+
+/*config for sfq icon, ust icon and help icon */ /*UB-3*/
+.ic-app-header__menu-list-link .ic-icon-svg--sfq {
+	width: 26px; height: 29px;
+}
+
+.ic-app-header__menu-list-link .ic-icon-svg--help {
+	height: 29px;
+}
+
+.ic-icon-svg--ust {
+	height: 45px;
+}
+
+
+#help-dialog-options a[href="#create_ticket"], /* Hide the report a problem link */ /*UB-6*/
+#right-side a.btn.button-sidebar-wide.delete_course_link, /* Hide the delete a course button */ /*UB-7*/
+#right-side a.btn.button-sidebar-wide.reset_course_content_button, /* hide the reset course button */
+#right-side a[href*="event=conclude"], /* Hide the conclude course button */
+a.btn.btn-primary.add_access_token_link, /* Hide the add access token link */ /*UB-8*/
+a.add_contact_link.icon-add, /* Hide the SMS tab */ /*UB-9*/
+#communication_channels a#ui-id-2, /* hide the SMS tab */
+form#course_form select#course_locale, /* Hide the change language dropdown in the course settings page */ /*UB-10*/
+form#course_form select#course_time_zone, /* Hide the change timezone field in the course settings */
+table.profile_table.editing select#user_locale, /* Hide the change timezone field on the profile page */ /*UB-11*/
+table.profile_table.editing select#user_time_zone /* Hide the timezone editor for users */
+{
+display: none !important;
+}
+
+.profile_table.editing .display_data {
+  display: inline !important;
+}
+
+/*
+svg.ic-icon-svg ic-icon-svg--ust{
+	display: table-cell;  
+    vertical-align: bottom;
+	position: absolute;
+	bottom: 0;
+}
+*/
+
+/*UH-3 UST Logo */
+#logoDiv{
+	padding-bottom: 10px;
+}
+
+
+.loginNote { /*UB-12*/
+  margin: 0px auto;
+  width: 325px;
+  border: 2px solid white;
+  padding: 7px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
