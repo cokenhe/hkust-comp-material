@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>COMP3511 Spring 2019 Project #2: CPU Scheduling in Nachos</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body>
+        <h1 id="comp3511-spring-2019-project-2-cpu-scheduling-in-nachos">COMP3511 Spring 2019 Project #2: CPU Scheduling in Nachos</h1>
+<p>(You are strongly recommended to use the servers in the Lab, the servers are <a href="http://csl2wk01.cse.ust.hk">csl2wk01.cse.ust.hk</a> ~ <a href="http://csl2wk40.cse.ust.hk">csl2wk40.cse.ust.hk</a>. SSH is OK for that.)</p>
+<p>In this project you will learn how to schedule CPU for threads. You are given a simple scheduling system skeleton in Nachos and your tasks are:</p>
+<ol>
+<li>
+<p><strong>Compile Nachos and run the system with pre-implemented First Come First Serve CPU scheduling algorithm.</strong></p>
+</li>
+<li>
+<p><strong>Read the code and understand how the given CPU scheduling algorithm is implemented.</strong></p>
+</li>
+<li>
+<p><strong>Implement the Round Robin scheduling algorithm (RR), Preemptive Priority scheduling algorithm (P_Priority) and Multilevel Feedback Queue (MLFQ) in Nachos. Recompile and run the system to test your implementation.</strong></p>
+</li>
+<li>
+<p><strong>Explain the results and answer some questions.</strong></p>
+</li>
+</ol>
+<p>Please don't be overwhelmed by the sheer amount of code provided. In fact, you don’t need to worry about most of it. The parts that you need to read or modify are given in the following instructions. Please read them carefully, and follow the steps.</p>
+<h2 id="task-1-run-nachos-with-pre-implemented-scheduling-system-skeleton">Task 1: Run Nachos with Pre-implemented Scheduling System Skeleton</h2>
+<h3 id="step-1-download-nachos-source-code-of-this-project">Step 1: Download Nachos source code of this project</h3>
+<pre><code><div>wget http://course.cse.ust.hk/comp3511/project/project2/os2019spring_nachos_proj2.tar.gz
+</div></code></pre>
+<h3 id="step-2-extract-the-source-code">Step 2: Extract the source code</h3>
+<pre><code><div>tar zxvf os2019spring_nachos_proj2.tar.gz
+</div></code></pre>
+<h3 id="step-3-compile-the-code">Step 3: Compile the code</h3>
+<p>Enter the folder <code>os2019spring_nachos_proj2</code> and then run <code>make</code>.</p>
+<h3 id="step-4-run-nachos">Step 4: Run Nachos</h3>
+<p>This program was designed to test 4 scheduling algorithms, namely <strong>First Come First Serve (FCFS)</strong>, <strong>Round Robin (RR)</strong>, <strong>Preemptive Priority (P_Priority)</strong> and <strong>Multilevel feedback queue scheduling (MLFQ)</strong>. To cover all the cases, we do not run the executable file <code>nachos</code> directly. Instead, we run <code>test0</code>, <code>test1</code>, <code>test2</code> and <code>test3</code> to test the 4 scheduling algorithms respectively.</p>
+<p>For example, you can run 'test0' to test First Come First Serve scheduling algorithm.</p>
+<pre><code><div>./test0
+</div></code></pre>
+<p>If you succeed in running <code>test0</code>, you will see the following messages:</p>
+<pre><code><div>First-come first-served scheduling
+Starting at Elapesd ticks: total 0
+Queuing threads.
+Queuing thread threadA at Time 0, priority 4, willing to burst 9 ticks
+Queuing thread threadB at Time 0, priority 4, willing to burst 11 ticks
+Switching from thread &quot;main&quot; to thread &quot;threadA&quot;
+threadA, Starting Burst of 9 ticks. Elapesd ticks: total 0
+threadA, Still 8 to go. Elapesd ticks: total 1
+threadA, Still 7 to go. Elapesd ticks: total 2
+threadA, Still 6 to go. Elapesd ticks: total 3
+threadA, Still 5 to go. Elapesd ticks: total 4
+threadA, Still 4 to go. Elapesd ticks: total 5
+threadA, Still 3 to go. Elapesd ticks: total 6
+threadA, Still 2 to go. Elapesd ticks: total 7
+threadA, Still 1 to go. Elapesd ticks: total 8
+threadA, Still 0 to go. Elapesd ticks: total 9
+
+............(We omitted some output here.)............
+
+threadH, Still 4 to go. Elapesd ticks: total 122
+threadH, Still 3 to go. Elapesd ticks: total 123
+threadH, Still 2 to go. Elapesd ticks: total 124
+threadH, Still 1 to go. Elapesd ticks: total 125
+threadH, Still 0 to go. Elapesd ticks: total 126
+threadH, Done with burst. Elapesd ticks: total 126
+No threads ready or runnable, and no pending interrupts.
+Assuming the program completed.
+Machine halting!
+
+Ticks: total 126, idle 0, system 126, user 0
+Disk I/O: reads 0, writes 0
+Console I/O: reads 0, writes 0
+Paging: faults 0
+Network I/O: packets received 0, sent 0
+Cleaning up...
+</div></code></pre>
+<p>To be concise, we omitted several output lines.</p>
+<p>The following table would give very useful information to you.</p>
+<table>
+<thead>
+<tr>
+<th>Executable File</th>
+<th>Source File</th>
+<th>Corresponding Algorithm</th>
+<th>Already Implemented?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>test0</td>
+<td><a href="http://test.0.cc">test.0.cc</a></td>
+<td>FCFS</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>test1</td>
+<td><a href="http://test.1.cc">test.1.cc</a></td>
+<td>RR</td>
+<td>No</td>
+</tr>
+<tr>
+<td>test2</td>
+<td><a href="http://test.2.cc">test.2.cc</a></td>
+<td>P-Priority</td>
+<td>No</td>
+</tr>
+<tr>
+<td>test3</td>
+<td><a href="http://test.3.cc">test.3.cc</a></td>
+<td>MLFQ</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>You can run <code>test0</code> to test the pre-implemented algorithms. However, because <strong>Round Robin</strong> algorithm, <strong>P-Priority</strong> and <strong>MLFQ</strong> are not yet implemented, if you run <code>test1</code> or <code>test2</code> or <code>test3</code> to test the given system skeleton, there will be an error. You can view the source code of test files in <code>test.0.cc</code>, <code>test.1.cc</code>, <code>test.2.cc</code> and <code>test.3.cc</code> respectively.</p>
+<h3 id="step-5-read-the-code">Step 5: Read the code</h3>
+<p>Please read the code carefully. Try to understand how the given scheduling algorithm is implemented. You need to focus on <code>threadtest.cc</code>, <code>scheduler.h</code>, <code>scheduler.cc</code>,	<code>list.h</code>, <code>list.cc</code>, <code>thread.h</code>, <code>thread.cc</code>. Here we provide you some notes about the code.</p>
+<p>The CPU scheduling algorithms are mainly implemented in 4 functions: <code>ReadyToRun()</code>, <code>FindNextToRun()</code>, <code>ShouldISwitch()</code>, <code>InterruptHandler()</code>, in <code>scheduler.cc</code>.</p>
+<ol>
+<li>
+<p><code>ReadyToRun()</code> decides the policy of placing a thread into ready queue or multilevel queues when the thread gets ready. For example, in FCFS we simply append the thread to the end the ready queue, while in scheduling algorithms where threads have different priority we insert the thread to the queue according to its priority.</p>
+</li>
+<li>
+<p><code>FindNextToRun()</code> decides the policy of picking one thread to run from the ready queue. For example, in FCFS scheduling, we fetch the first thread in ready queue to run.</p>
+</li>
+<li>
+<p><code>ShouldISwitch()</code> decides whether the running thread should preemptively give up to a newly forked thread. In FCFS scheduling, the running thread does not preemptively give up its CPU resources. Note that only in preemptive algorithms, it is needed to decide whether the running thread should give up or not. In other algorithms, you can simply return false.</p>
+</li>
+<li>
+<p><code>SetNumOfQueues(int level)</code> Set the number of queues for MLFQ - should be called only once.</p>
+</li>
+<li>
+<p><code>InterruptHandler(int dummy)</code> decides the policy of preempting the running thread regularly. For example, in RR scheduling, we decrement the quantum of a process and preempt the process when the quantum is 0.</p>
+</li>
+</ol>
+<h2 id="task-2-implement-three-scheduling-algorithms">Task 2: Implement three Scheduling Algorithms</h2>
+<p>In this task, you are required to implement the remaining four scheduling algorithms Round Robin, Preemptive Priority and MLFQ, and then test your implementation. To achieve this, you needn’t modify any source file other than <code>scheduler.cc</code> and <code>test.3.cc</code>. You are supposed to add some code in the following functions in <code>scheduler.cc</code>.</p>
+<p><strong>Note:</strong> Be very careful of <strong><code>cases</code></strong> in <strong><code>switch</code></strong> block(s) in each of those functions. Make sure you put your code in the right place.</p>
+<p>Since you have to operate one or more Lists, you could refer to <code>list.h</code> and <code>list.cc</code> to get familiar with List operations. Please make good use of appropriate List operations, and the crucial requirement of this project for you is to understand and experiment with different scheduling algorithms instead of coding itself, so the coding part is actually relatively easy.</p>
+<h3 id="step-1-implement-round-robin-scheduling">Step 1. Implement <strong>Round Robin</strong> Scheduling</h3>
+<p>In this step, you are supposed to add some code with respect to Round Robin algorithm in <strong><code>case SCHED_RR</code></strong> in each function in <strong><code>scheduler.cc</code></strong>. In Round Robin scheduling algorithm, the thread should first be scheduled in a first-come-first-served manner. Each thread gets a quantum of <strong>4 ticks</strong>. When the quantum expires, it is preempted and added to the end of the <code>readyList</code>.
+Some notes are given to you:</p>
+<ol>
+<li>
+<p>A thread can be preempted by calling <code>Thread::Yield()</code>. However in an interrupt handler, directly calling it causes a context switch which switches away from the handler. <code>interrupt-&gt;YieldOnReturn()</code> should be called instead.</p>
+</li>
+<li>
+<p>You should run <code>make clean</code> and then <code>make</code> to recompile the code and run <code>test1</code> to check the output.</p>
+</li>
+</ol>
+<pre><code><div>./test1
+./test1 &gt; project2_test1.txt
+</div></code></pre>
+<h3 id="step-2-implement-preemptive-priority-scheduling">Step 2. Implement <strong>Preemptive Priority</strong> Scheduling</h3>
+<p>In this step, you are supposed to add some code with respect to P_Priority algorithm in <strong><code>case SCHED_PRIO_P</code></strong> in each function in <strong><code>scheduler.cc</code></strong>. In P_Priority algorithm, upon its arrival, the thread with the highest priority in the <code>readyList</code> will preempt the current thread and thus be scheduled immediately. If there are more than one thread with the same priority in the <code>readyList</code>, they must be scheduled in FCFS manner.</p>
+<p>Then you should run <code>make clean</code> and then <code>make</code> to recompile the code and run test2 to check the output.</p>
+<pre><code><div>./test2
+./test2 &gt; project2_test2.txt
+</div></code></pre>
+<h3 id="step-3-implement-multilevel-feedback-queue-scheduling">Step 3. Implement <strong>Multilevel Feedback Queue</strong> Scheduling</h3>
+<p>In this step, you are supposed to add some code with respect to MLFQ algorithm in <strong><code>case SCHED_MLFQ</code></strong> in each function in <strong><code>scheduler.cc</code></strong> and <strong><code>test.3.cc</code></strong>. In MLFQ algorithm, upon its arrival, each thread will be put at the tail of the first level of <code>MultiLevelList</code>. The MLFQ should have <strong>3 levels</strong>, with the first level having a <strong>quantum of 4</strong>, second level having a <strong>quantum of 8</strong>, and the third level is <strong>FCFS</strong>.</p>
+<p>Some notes are given to you:</p>
+<ol>
+<li>
+<p>In this MLFQ scheduling, it is a kind of <strong>preemptive</strong> scheduling.</p>
+</li>
+<li>
+<p>Function <strong><code>SetNumOfQueues(int level)</code></strong> should be called in <code>test.3.cc</code>.</p>
+</li>
+<li>
+<p>In <code>ReadyToRun(Thread *thread)</code>, you should add codes in <strong><code>case SCHED_MLFQ</code></strong>. Each thread should be put into its corresponding queue in the queue List of <code>MultiLevelList[]</code> instead of the queue of <code>readyList</code>.</p>
+</li>
+<li>
+<p>In <code>FindNextToRun()</code>, you should add codes in <strong><code>case SCHED_MLFQ</code></strong>. You should search for ready thread from the first level queue in <code>MultiLevelList[]</code> first, then in the second level, then in the third level.</p>
+</li>
+<li>
+<p>In <code>ShouldISwitch()</code>, you should add codes in <strong><code>case SCHED_MLFQ</code></strong>. Upon a thread's arrival, the thread with the highest priority will preempt the current thread and thus be scheduled immediately. The preempted thread should be prepended to its own level with the remaining quantum. If there are more than one thread with the same priority, they must be scheduled in FCFS manner.</p>
+</li>
+<li>
+<p>In <code>InterruptHandler()</code>, you should add codes in <strong><code>case SCHED_MLFQ</code></strong>. A thread should be counted for its quantum and be preempted and moved to the next level when it used up the quantum.</p>
+</li>
+</ol>
+<p>Then you should run <code>make clean</code> and then <code>make</code> to recompile the code and run <code>test3</code> to check the output.</p>
+<pre><code><div>./test3
+./test3 &gt; project2_test3_1.txt
+</div></code></pre>
+<p>Next, you are supposed to change two code lines in <strong><code>test.3.cc</code></strong>. In particular, in <strong>Line 24 to Line 26</strong>, change the <code>startTime[]</code> to <code>{13, 0, 20, 18, 10, 7, 12, 6}</code>, <code>burstTime[]</code> to <code>{15, 9, 3, 18, 32, 2, 14, 19}</code> and the <code>priority[]</code> to <code>{2, 2, 2, 2, 2, 2, 2, 2}</code>.</p>
+<p>Then you should run <code>make clean</code> and then <code>make</code> to recompile the code and run <code>test4</code> to check the output.</p>
+<pre><code><div>./test4
+./test4 &gt; project2_test4_2.txt
+</div></code></pre>
+<h2 id="task-3-explain-the-results">Task 3: Explain the Results</h2>
+<ol>
+<li>
+<p>Understand the output of <code>test0</code> (FCFS scheduling), <code>test1</code> (RR scheduling), <code>test2</code> (P_Priority scheduling), and <code>test3_1</code> and <code>test3_2</code> (MLFQ). Then calculate the following performance of <strong>all the five settings</strong>:</p>
+<ol>
+<li>
+<p>Average waiting time;</p>
+</li>
+<li>
+<p>Average response time;</p>
+</li>
+<li>
+<p>Average turn-around time.</p>
+</li>
+</ol>
+<p>Notice: By definition, <strong>response time</strong> means <em>the amount of time it takes from when a request was submitted until the first response is produced</em>, and <strong>waiting time</strong> means <em>the sum of the periods that a process spent waiting in the ready queue</em>.</p>
+</li>
+<li>
+<p>Compare the performance of the two scheduling algorithms <strong>FCFS and RR</strong> in the aspects mentioned in question 1, then discuss the pros and cons of each of the two scheduling algorithms. (Note: you are strongly encouraged to change the input threads in <code>test.0.cc</code> and <code>test.1.cc</code> in order to make your discussion more convincing. However, when submitting the outputs of <code>test0</code> and <code>test1</code>, please do submit the outputs with the original input threads.)</p>
+</li>
+<li>
+<p>Compare the results in <code>project2_test3_1.txt</code> and <code>project2_test3_2.txt</code>, and explain the differences in details.</p>
+</li>
+</ol>
+<p><strong>Please write your answers in project2_report.txt</strong></p>
+<h2 id="after-finishing-these-tasks">After Finishing These Tasks</h2>
+<ol>
+<li>
+<p>Please generate a single file using <strong>TAR GZIP</strong> and submit it through <strong>CASS</strong>.</p>
+</li>
+<li>
+<p>The name of the TAR GZIP file should be <code>proj2_********.tar.gz</code>, using <strong>your student ID</strong> to replace the star symbols.</p>
+</li>
+<li>
+<p>The following files should be included inside the TAR GZIP file:</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>File Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://scheduler.cc">scheduler.cc</a></td>
+<td>Source code you have accomplished by the end of Task2</td>
+</tr>
+<tr>
+<td>project2_test1.txt</td>
+<td>Output of test1</td>
+</tr>
+<tr>
+<td>project2_test2.txt</td>
+<td>Output of test2</td>
+</tr>
+<tr>
+<td>project2_test3_1.txt</td>
+<td>Output of test3</td>
+</tr>
+<tr>
+<td>project2_test3_2.txt</td>
+<td>Output of test3</td>
+</tr>
+<tr>
+<td>project2_report.txt</td>
+<td>The answer to the questions in Task 3</td>
+</tr>
+<tr>
+<td><a href="http://test.3.cc">test.3.cc</a></td>
+<td>Source file</td>
+</tr>
+</tbody>
+</table>
+
+    </body>
+    </html>
