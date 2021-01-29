@@ -8,4 +8,5 @@ A backup repo for HKUST COMP courses' materials:
 - COMP3511
 - COMP3711
 - COMP4211
+- COMP4421
 - COMP4711
