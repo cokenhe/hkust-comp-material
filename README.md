@@ -12,5 +12,5 @@ A backup repo for HKUST COMP courses' materials:
 | [COMP3711](/1819Spring/COMP3711)  | Design and Analysis of Algorithms                      |
 | [COMP4211](/1920Spring/COMP4211)  | Machine Learning                                       |
 | [COMP4421](/2021Fall/COMP4421)    | Image Processing                                       |
-| [COMP4471](/1920Spring/COMP4711)  | Deep Learning in Computer Vision                       |
+| [COMP4471](/1920Spring/COMP4471)  | Deep Learning in Computer Vision                       |
 
