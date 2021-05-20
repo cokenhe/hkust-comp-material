@@ -1,0 +1,21 @@
+[submodule "2021Spring/COMP4651/assignment-2"]
+	path = 2021Spring/COMP4651/assignment-2
+	url = git@github.com:hkust-comp4651-21S/assignment-2-cokenhe.git
+[submodule "2021Spring/COMP4651/assignment-3"]
+	path = 2021Spring/COMP4651/assignment-3
+	url = git@github.com:hkust-comp4651-21S/assignment-3-cokenhe.git
+[submodule "2021Spring/COMP4651/assignment-4"]
+	path = 2021Spring/COMP4651/assignment-4
+	url = git@github.com:hkust-comp4651-21S/assignment-4-cokenhe.git
+[submodule "2021Spring/COMP4651/assignment-5"]
+	path = 2021Spring/COMP4651/assignment-5
+	url = git@github.com:hkust-comp4651-21S/assignment-5-cokenhe.git
+[submodule "2021Spring/COMP4651/assignment-6"]
+	path = 2021Spring/COMP4651/assignment-6
+	url = git@github.com:hkust-comp4651-21S/assignment-6-cokenhe.git
+[submodule "2021Spring/COMP4321/web-search-engine"]
+	path = 2021Spring/COMP4321/web-search-engine
+	url = git@github.com:cokenhe/web-search-engine.git
+[submodule "FYP/MCFDM"]
+	path = FYP/MCFDM
+	url = git@github.com:andyeung523/2020FYP-MCFDM.git
